@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Logo } from "./Logo";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -11,7 +12,8 @@ const navItems = [
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);  const [activeSection, setActiveSection] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);  
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,13 +72,9 @@ export const Navigation = () => {
           {/* Centered Navigation with Logo */}
           <div className="hidden md:flex items-center gap-2">
             {/* Logo on left of nav */}
-            <motion.a
-              href="#"
-              className="text-xl font-bold text-gradient mr-6"
-              whileHover={{ scale: 1.05 }}
-            >
-              Dulshan.
-            </motion.a>
+            <a href="#" className="mr-6">
+              <Logo variant="default" />
+            </a>
 
             {/* Liquid Glass Navigation Pills */}
             <div 
@@ -146,13 +144,9 @@ export const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center justify-between w-full">
-            <motion.a
-              href="#"
-              className="text-xl font-bold text-gradient"
-              whileHover={{ scale: 1.05 }}
-            >
-              Dulshan.
-            </motion.a>
+            <a href="#">
+              <Logo variant="minimal" />
+            </a>
             
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

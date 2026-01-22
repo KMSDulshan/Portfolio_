@@ -19,9 +19,9 @@ export const ContactSection = () => {
 
     try {
       // EmailJS configuration - verify these in your EmailJS dashboard
-      const serviceId = 'service_zangwrx';
-      const templateId = 'template_qckqg6k';
-      const publicKey = '9-xCulYQ3RvthOSl1';
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
       // Extract form data manually for better control
       const formData = new FormData(formRef.current!);
