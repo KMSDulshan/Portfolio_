@@ -160,7 +160,7 @@ export const ContactSection = () => {
               </p>
               <div className="flex gap-4">
                 <motion.a
-                  href="https://github.com/dulshan-ranaweera"
+                  href="https://github.com/KMSDulshan"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
@@ -170,7 +170,7 @@ export const ContactSection = () => {
                   <Github className="w-5 h-5" />
                 </motion.a>
                 <motion.a
-                  href="https://linkedin.com/in/dulshan-ranaweera"
+                  href="https://www.linkedin.com/in/k-m-s-dulshan-0b405a250?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
