@@ -5,7 +5,7 @@ import { Briefcase, GraduationCap, Award, CheckCircle } from "lucide-react";
 
 const careerPath = [
   {
-    year: "2024 - Present",
+    year: "2025 - Present",
     title: "QA Associate",
     company: "Professional Experience",
     description: "Leading quality assurance initiatives with automated and manual testing across web applications.",
@@ -14,7 +14,7 @@ const careerPath = [
     isActive: true,
   },
   {
-    year: "2023 - 2024",
+    year: "2024 - 2025",
     title: "QA Intern / Junior Developer",
     company: "Learning & Growth",
     description: "Gained hands-on experience in software testing methodologies and development practices.",

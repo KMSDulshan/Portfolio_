@@ -1,23 +1,91 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Mail, MapPin, Github, Linkedin, CheckCircle } from "lucide-react";
+import { Send, Mail, MapPin, Github, Linkedin, CheckCircle, AlertCircle } from "lucide-react";
+import emailjs from '@emailjs/browser';
 
 export const ContactSection = () => {
   const ref = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // EmailJS configuration - verify these in your EmailJS dashboard
+      const serviceId = 'service_zangwrx';
+      const templateId = 'template_qckqg6k';
+      const publicKey = '9-xCulYQ3RvthOSl1';
+
+      // Extract form data manually for better control
+      const formData = new FormData(formRef.current!);
+      const templateParams = {
+        user_name: formData.get('user_name') as string,
+        user_email: formData.get('user_email') as string,
+        subject: formData.get('subject') as string,
+        message: formData.get('message') as string,
+        to_email: 'sumudu.dkm@gmail.com', // Your receiving email
+      };
+
+      // Validate data before sending
+      if (!templateParams.user_name || !templateParams.user_email || 
+          !templateParams.subject || !templateParams.message) {
+        throw new Error('Please fill in all fields');
+      }
+
+      // Use emailjs.send for better error handling
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      );
+
+      console.log('Email sent successfully:', response);
+      
       setIsSubmitting(false);
       setIsSubmitted(true);
-    }, 1500);
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+      }, 5000);
+      
+    } catch (err: any) {
+      console.error('EmailJS Error:', err);
+      setIsSubmitting(false);
+      
+      // Detailed error messages based on error type
+      let errorMessage = "Failed to send message. Please try again or email me directly at sumudu.dkm@gmail.com";
+      
+      if (err.status === 412) {
+        errorMessage = "Email service configuration error. Please contact me directly at sumudu.dkm@gmail.com";
+      } else if (err.status === 400) {
+        errorMessage = "Invalid email format. Please check your inputs and try again.";
+      } else if (err.status === 401 || err.status === 403) {
+        errorMessage = "Authentication error. Please contact me directly at sumudu.dkm@gmail.com";
+      } else if (err.text) {
+        errorMessage = `Error: ${err.text}. Please try again.`;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
+      
+      // Clear error after 8 seconds
+      setTimeout(() => {
+        setError("");
+      }, 8000);
+    }
   };
 
   return (
@@ -121,7 +189,7 @@ export const ContactSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3 }}
           >
-            <form onSubmit={handleSubmit} className="glass-card p-8 rounded-2xl">
+            <form ref={formRef} onSubmit={handleSubmit} className="glass-card p-8 rounded-2xl">
               {isSubmitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -133,22 +201,34 @@ export const ContactSection = () => {
                   </div>
                   <h4 className="text-xl font-bold mb-2">Message Sent!</h4>
                   <p className="text-muted-foreground">
-                    Thank you for reaching out. I'll get back to you soon.
+                    Thank you for reaching out. I'll get back to you soon at sumudu.dkm@gmail.com
                   </p>
                 </motion.div>
               ) : (
                 <>
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3 text-red-600"
+                    >
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                      <p className="text-sm">{error}</p>
+                    </motion.div>
+                  )}
+
                   <div className="space-y-6">
                     <div>
                       <label
-                        htmlFor="name"
+                        htmlFor="user_name"
                         className="block text-sm font-medium mb-2"
                       >
                         Your Name
                       </label>
                       <input
                         type="text"
-                        id="name"
+                        id="user_name"
+                        name="user_name"
                         required
                         className="input-glass"
                         placeholder="John Doe"
@@ -157,14 +237,15 @@ export const ContactSection = () => {
 
                     <div>
                       <label
-                        htmlFor="email"
+                        htmlFor="user_email"
                         className="block text-sm font-medium mb-2"
                       >
                         Email Address
                       </label>
                       <input
                         type="email"
-                        id="email"
+                        id="user_email"
+                        name="user_email"
                         required
                         className="input-glass"
                         placeholder="john@example.com"
@@ -181,6 +262,7 @@ export const ContactSection = () => {
                       <input
                         type="text"
                         id="subject"
+                        name="subject"
                         required
                         className="input-glass"
                         placeholder="Project Inquiry"
@@ -196,6 +278,7 @@ export const ContactSection = () => {
                       </label>
                       <textarea
                         id="message"
+                        name="message"
                         rows={4}
                         required
                         className="input-glass resize-none"
