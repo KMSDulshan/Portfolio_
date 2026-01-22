@@ -166,16 +166,18 @@ export const ContactSection = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-foreground hover:text-primary transition-colors"
+                  aria-label="GitHub Profile"
                 >
                   <Github className="w-5 h-5" />
                 </motion.a>
                 <motion.a
-                  href="https://www.linkedin.com/in/k-m-s-dulshan-0b405a250?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                  href="https://www.linkedin.com/in/k-m-s-dulshan-0b405a250"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-foreground hover:text-primary transition-colors"
+                  aria-label="LinkedIn Profile"
                 >
                   <Linkedin className="w-5 h-5" />
                 </motion.a>
