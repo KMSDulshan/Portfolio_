@@ -1,14 +1,23 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ExternalLink, Github, Gamepad2, Droplets, FileText, CloudSun, ShoppingCart, Film, Users } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
+
+// Import project images
+import plenGameImg from "@/assets/Plen Game.jpeg";
+import bloodMgmtImg from "@/assets/Blood Management System.jpeg";
+import noteAppImg from "@/assets/NoteApp.jpeg";
+import weatherAppImg from "@/assets/Weather App.jpeg";
+import groceryMateImg from "@/assets/GroceryMate.jpg";
+import pvFilmsImg from "@/assets/PV Films.jpeg";
+import skillShareImg from "@/assets/SkillShare.jpeg";
 
 interface Project {
   title: string;
   description: string;
   techStack: string[];
-  icon: React.ReactNode;
-  color: string;
+  image: string;
+  category: string;
   github?: string;
   live?: string;
 }
@@ -19,8 +28,8 @@ const projects: Project[] = [
     description:
       "An immersive racing game with vivid graphics and simple controls. Race through complex environments, avoid obstacles, and compete for the highest score.",
     techStack: ["Unity", "C#", "Game Dev"],
-    icon: <Gamepad2 className="w-8 h-8" />,
-    color: "from-blue-500 to-purple-600",
+    image: plenGameImg,
+    category: "Game Development",
     github: "https://github.com/shashenAmalka",
   },
   {
@@ -28,16 +37,16 @@ const projects: Project[] = [
     description:
       "MERN stack application streamlining blood donor management, request handling, and inventory with real-time updates and user-friendly interface.",
     techStack: ["MySQL", "Express.js", "React", "Node.js"],
-    icon: <Droplets className="w-8 h-8" />,
-    color: "from-red-500 to-rose-600",
+    image: bloodMgmtImg,
+    category: "Full Stack",
   },
   {
     title: "NoteApp",
     description:
       "Mobile app for capturing and organizing notes using SQLite. Intuitive interface for creating, editing, and managing notes on the go.",
     techStack: ["Kotlin", "SQLite", "Android"],
-    icon: <FileText className="w-8 h-8" />,
-    color: "from-sky-400 to-blue-500",
+    image: noteAppImg,
+    category: "Mobile Development",
     github: "https://github.com/shashenAmalka",
   },
   {
@@ -45,32 +54,32 @@ const projects: Project[] = [
     description:
       "React-based application providing real-time weather updates with dynamic UI and API integration for accurate forecasts.",
     techStack: ["React", "API Integration", "CSS"],
-    icon: <CloudSun className="w-8 h-8" />,
-    color: "from-cyan-400 to-teal-500",
+    image: weatherAppImg,
+    category: "Frontend",
   },
   {
     title: "GroceryMate",
     description:
       "AI-powered grocery shopping system with chatbot list generation, secure login, and user profile management for tracking impact.",
     techStack: ["Python", "React", "MongoDB", "AI"],
-    icon: <ShoppingCart className="w-8 h-8" />,
-    color: "from-green-500 to-emerald-600",
+    image: groceryMateImg,
+    category: "AI & Full Stack",
   },
   {
     title: "PV Films",
     description:
       "Movie and TV series browsing system using JSP and MVC architecture. Search and watch content with 99.5% uptime and 2,000+ titles.",
     techStack: ["Java Servlet", "MySQL", "MVC", "Tomcat"],
-    icon: <Film className="w-8 h-8" />,
-    color: "from-orange-500 to-red-500",
+    image: pvFilmsImg,
+    category: "Backend & Web",
   },
   {
     title: "SkillShare",
     description:
       "Collaborative learning platform for sharing skills with learning paths, likes, comments, follows, and progress tracking.",
     techStack: ["Spring Boot", "React.js"],
-    icon: <Users className="w-8 h-8" />,
-    color: "from-violet-500 to-purple-600",
+    image: skillShareImg,
+    category: "Full Stack",
   },
 ];
 
@@ -85,79 +94,88 @@ const ProjectCard = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 80, rotateX: 10 }}
-      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ 
-        delay: index * 0.15, 
-        duration: 0.7,
+        delay: index * 0.1, 
+        duration: 0.6,
         type: "spring",
         stiffness: 100
       }}
-      whileHover={{ y: -10, scale: 1.02 }}
-      className="group project-card min-w-[320px] md:min-w-[380px] flex-shrink-0"
+      whileHover={{ y: -12, scale: 1.03 }}
+      className="group relative project-card overflow-hidden h-full"
     >
-      {/* Gradient Header */}
-      <div
-        className={`h-40 bg-gradient-to-br ${project.color} flex items-center justify-center relative overflow-hidden`}
-      >
-        {/* Pattern overlay */}
-        <div className="absolute inset-0 opacity-20">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-              backgroundSize: "20px 20px",
-            }}
-          />
+      {/* Project Image */}
+      <div className="relative h-56 overflow-hidden">
+        <motion.img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+        
+        {/* Category badge */}
+        <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30">
+          <span className="text-white text-xs font-medium">{project.category}</span>
         </div>
 
-        {/* Icon */}
-        <div className="relative z-10 w-20 h-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
-          {project.icon}
-        </div>
-
-        {/* Links */}
-        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Links - Show on hover */}
+        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
           {project.github && (
-            <a
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
             >
               <Github className="w-5 h-5" />
-            </a>
+            </motion.a>
           )}
           {project.live && (
-            <a
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
             >
               <ExternalLink className="w-5 h-5" />
-            </a>
+            </motion.a>
           )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-foreground mb-2">
+      <div className="p-6 flex flex-col h-[calc(100%-14rem)]">
+        <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
           {project.title}
         </h3>
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+        <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-grow">
           {project.description}
         </p>
 
         {/* Tech Stack */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mt-auto">
           {project.techStack.map((tech) => (
-            <span key={tech} className="tech-badge text-xs">
+            <motion.span
+              key={tech}
+              whileHover={{ scale: 1.05 }}
+              className="tech-badge text-xs"
+            >
               {tech}
-            </span>
+            </motion.span>
           ))}
         </div>
+      </div>
+
+      {/* Shine effect on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
       </div>
     </motion.div>
   );
@@ -169,16 +187,34 @@ export const ProjectsSection = () => {
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden" ref={ref}>
-      {/* Background */}
+      {/* Animated background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+      
+      {/* Floating orbs */}
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-20 right-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute bottom-20 left-20 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl"
+      />
 
-      <div className="relative">
+      <div className="section-container relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 px-6"
+          className="text-center mb-16"
         >
           <motion.span
             initial={{ opacity: 0, scale: 0.8 }}
@@ -188,42 +224,44 @@ export const ProjectsSection = () => {
           >
             💼 Development Portfolio
           </motion.span>
-          <h2 className="section-heading mx-auto">Featured Projects</h2>
-          <p className="section-subheading mx-auto">
-            Applications I've built showcasing full-stack development skills
+          <h2 className="section-heading">Featured Projects</h2>
+          <p className="section-subheading max-w-2xl mx-auto">
+            Applications I've built showcasing full-stack development skills across 
+            web, mobile, and game development
           </p>
         </motion.div>
 
-        {/* Horizontal Scroll Container */}
-        <div className="relative">
-          {/* Gradient masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-
-          {/* Scrollable container */}
-          <div className="overflow-x-auto pb-6 px-6 scrollbar-thin">
-            <div className="flex gap-6 w-max">
-              {projects.map((project, index) => (
-                <ProjectCard
-                  key={project.title}
-                  project={project}
-                  index={index}
-                  isInView={isInView}
-                />
-              ))}
-            </div>
-          </div>
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              index={index}
+              isInView={isInView}
+            />
+          ))}
         </div>
 
-        {/* Scroll hint */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+        {/* View More CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8 }}
-          className="text-center text-muted-foreground text-sm mt-6"
+          className="text-center mt-12"
         >
-          ← Scroll to explore more projects →
-        </motion.p>
+          <p className="text-muted-foreground text-sm">
+            More projects available on{" "}
+            <a
+              href="https://github.com/shashenAmalka"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline font-medium"
+            >
+              GitHub →
+            </a>
+          </p>
+        </motion.div>
       </div>
     </section>
   );

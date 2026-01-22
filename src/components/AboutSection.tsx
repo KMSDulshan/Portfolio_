@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { Download } from "lucide-react";
 import profileImage from "@/assets/profile.jpeg";
 
 const techStack = [
@@ -104,6 +105,23 @@ export const AboutSection = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Download CV Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.7 }}
+              className="flex justify-center lg:justify-start"
+            >
+              <a
+                href="/KMSDulshanResume.pdf"
+                download="KMSDulshan_QA_Resume.pdf"
+                className="px-8 py-4 rounded-full font-semibold border-2 border-primary bg-primary/10 hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-primary/50"
+              >
+                <Download size={20} />
+                Download My CV
+              </a>
+            </motion.div>
           </motion.div>
         </div>
 

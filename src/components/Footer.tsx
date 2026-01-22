@@ -19,8 +19,7 @@ export const Footer = () => {
 
           {/* Copyright */}
           <p className="text-muted-foreground text-sm flex items-center gap-1">
-            © {currentYear} K M S Dulshan Ranaweera. Built with{" "}
-            <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+            © {currentYear} K M S Dulshan Ranaweera
           </p>
 
           {/* Navigation */}
