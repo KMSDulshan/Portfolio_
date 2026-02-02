@@ -171,7 +171,7 @@ export const ContactSection = () => {
                   <Github className="w-5 h-5" />
                 </motion.a>
                 <motion.a
-                  href="https://www.linkedin.com/in/k-m-s-dulshan-0b405a250?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                  href="https://www.linkedin.com/in/k-m-s-dulshan-0b405a250?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
