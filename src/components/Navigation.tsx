@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { Logo } from "./Logo";
 
 const navItems = [
@@ -14,18 +14,38 @@ export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);  
   const [activeSection, setActiveSection] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved === 'dark';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Get all sections
       const sections = navItems.map(item => {
-        const id = item.href.substring(1); // Remove '#' from href
+        const id = item.href.substring(1);
         return document.getElementById(id);
       }).filter(Boolean);
 
-      // Find which section is currently in view
       const scrollPosition = window.scrollY + window.innerHeight / 3;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -36,20 +56,18 @@ export const Navigation = () => {
         }
       }
 
-      // If at the very top, clear active section
       if (window.scrollY < 100) {
         setActiveSection("");
       }
     };
 
-    handleScroll(); // Call once on mount
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      {/* Desktop Navigation */}
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -69,14 +87,11 @@ export const Navigation = () => {
         }}
       >
         <nav className="max-w-7xl mx-auto px-6 flex items-center justify-center">
-          {/* Centered Navigation with Logo */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Logo on left of nav */}
             <a href="#" className="mr-6">
               <Logo variant="default" />
             </a>
 
-            {/* Liquid Glass Navigation Pills */}
             <div 
               className="flex items-center gap-1 p-1.5 rounded-full"
               style={{
@@ -139,32 +154,72 @@ export const Navigation = () => {
               >
                 Hire Me
               </motion.a>
+
+              <motion.button
+                onClick={toggleDarkMode}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="ml-2 p-2.5 rounded-full transition-all duration-300"
+                style={{
+                  background: isDarkMode ? 'rgba(102, 126, 234, 0.2)' : 'rgba(102, 126, 234, 0.1)',
+                  border: '1.5px solid rgba(102, 126, 234, 0.2)',
+                  color: 'hsl(243, 75%, 50%)',
+                }}
+                aria-label="Toggle dark mode"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={isDarkMode ? 'dark' : 'light'}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.button>
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center justify-between w-full">
             <a href="#">
               <Logo variant="minimal" />
             </a>
             
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl transition-all duration-300"
-              style={{
-                background: 'rgba(102, 126, 234, 0.1)',
-                border: '1.5px solid rgba(102, 126, 234, 0.2)',
-                color: 'hsl(243, 75%, 50%)',
-              }}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="flex items-center gap-2">
+              <motion.button
+                onClick={toggleDarkMode}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2 rounded-xl transition-all duration-300"
+                style={{
+                  background: isDarkMode ? 'rgba(102, 126, 234, 0.2)' : 'rgba(102, 126, 234, 0.1)',
+                  border: '1.5px solid rgba(102, 126, 234, 0.2)',
+                  color: 'hsl(243, 75%, 50%)',
+                }}
+                aria-label="Toggle dark mode"
+              >
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </motion.button>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-xl transition-all duration-300"
+                style={{
+                  background: 'rgba(102, 126, 234, 0.1)',
+                  border: '1.5px solid rgba(102, 126, 234, 0.2)',
+                  color: 'hsl(243, 75%, 50%)',
+                }}
+                aria-label="Toggle menu"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </nav>
       </motion.header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -173,7 +228,7 @@ export const Navigation = () => {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-0 z-40 pt-24 px-6 md:hidden"
             style={{
-              background: "rgba(245, 245, 247, 0.98)",
+              background: isDarkMode ? "rgba(20, 20, 25, 0.98)" : "rgba(245, 245, 247, 0.98)",
               backdropFilter: "blur(20px)",
             }}
           >
