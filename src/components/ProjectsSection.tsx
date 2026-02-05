@@ -11,6 +11,7 @@ import weatherAppImg from "@/assets/Weather App.jpeg";
 import groceryMateImg from "@/assets/GroceryMate.jpg";
 import pvFilmsImg from "@/assets/PV Films.jpeg";
 import skillShareImg from "@/assets/SkillShare.jpeg";
+import housePriceImg from "@/assets/House Price Prediction System .jpeg";
 
 interface Project {
   title: string;
@@ -24,13 +25,23 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "House Price Prediction System",
+    description:
+      "Web-based application using regression models to predict house prices. Users input property features like size, structure, and sale details to receive estimated prices instantly.",
+    techStack: ["React", "Flask", "Vite", "Machine Learning"],
+    image: housePriceImg,
+    category: "AI & Full Stack",
+    github: "https://github.com/KMSDulshan",
+    live: "https://dulshan.xyz",
+  },
+  {
     title: "Plen Game",
     description:
       "An immersive racing game with vivid graphics and simple controls. Race through complex environments, avoid obstacles, and compete for the highest score.",
     techStack: ["Unity", "C#", "Game Dev"],
     image: plenGameImg,
     category: "Game Development",
-    github: "https://github.com/shashenAmalka",
+    github: "https://github.com/KMSDulshan",
   },
   {
     title: "Blood Management System",
@@ -39,6 +50,7 @@ const projects: Project[] = [
     techStack: ["MySQL", "Express.js", "React", "Node.js"],
     image: bloodMgmtImg,
     category: "Full Stack",
+    github: "https://github.com/KMSDulshan",
   },
   {
     title: "NoteApp",
@@ -47,7 +59,7 @@ const projects: Project[] = [
     techStack: ["Kotlin", "SQLite", "Android"],
     image: noteAppImg,
     category: "Mobile Development",
-    github: "https://github.com/shashenAmalka",
+    github: "https://github.com/KMSDulshan",
   },
   {
     title: "Weather App",
@@ -56,6 +68,7 @@ const projects: Project[] = [
     techStack: ["React", "API Integration", "CSS"],
     image: weatherAppImg,
     category: "Frontend",
+    github: "https://github.com/KMSDulshan",
   },
   {
     title: "GroceryMate",
@@ -64,6 +77,7 @@ const projects: Project[] = [
     techStack: ["Python", "React", "MongoDB", "AI"],
     image: groceryMateImg,
     category: "AI & Full Stack",
+    github: "https://github.com/KMSDulshan",
   },
   {
     title: "PV Films",
@@ -72,6 +86,7 @@ const projects: Project[] = [
     techStack: ["Java Servlet", "MySQL", "MVC", "Tomcat"],
     image: pvFilmsImg,
     category: "Backend & Web",
+    github: "https://github.com/KMSDulshan",
   },
   {
     title: "SkillShare",
@@ -80,6 +95,7 @@ const projects: Project[] = [
     techStack: ["Spring Boot", "React.js"],
     image: skillShareImg,
     category: "Full Stack",
+    github: "https://github.com/KMSDulshan",
   },
 ];
 
@@ -250,17 +266,17 @@ export const ProjectsSection = () => {
           transition={{ delay: 0.8 }}
           className="text-center mt-12"
         >
-          <p className="text-muted-foreground text-sm">
-            More projects available on{" "}
-            <a
-              href="https://github.com/shashenAmalka"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline font-medium"
-            >
-              GitHub →
-            </a>
-          </p>
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="https://github.com/KMSDulshan"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
+          >
+            <Github className="w-5 h-5" />
+            View More on GitHub
+          </motion.a>
         </motion.div>
       </div>
     </section>
