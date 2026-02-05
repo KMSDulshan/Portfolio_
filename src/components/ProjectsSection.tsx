@@ -32,7 +32,7 @@ const projects: Project[] = [
     image: housePriceImg,
     category: "AI & Full Stack",
     github: "https://github.com/KMSDulshan",
-    live: "https://dulshan.xyz",
+    // live link removed - project runs on localhost only
   },
   {
     title: "Plen Game",
